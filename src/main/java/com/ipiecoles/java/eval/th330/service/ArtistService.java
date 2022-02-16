@@ -36,6 +36,14 @@ public class ArtistService {
         return artist.get();
     }
 
+    public Artist findByName(String name) {
+        Artist artist = this.artistRepository.findArtistByName(name);
+        if(artist == null){
+            throw new EntityNotFoundException("Impossible de trouver l'employé de matricule " + name);
+        }
+        return artist;
+    }
+
     public Long countAllArtists() {
         return artistRepository.count();
     }

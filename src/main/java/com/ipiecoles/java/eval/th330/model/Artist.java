@@ -26,6 +26,9 @@ public class Artist implements Serializable {
     public Artist() {
     }
 
+    public String getClassName(){
+        return this.getClass().getSimpleName();
+    }
     public Artist(String name) {
         this.name = name;
     }
