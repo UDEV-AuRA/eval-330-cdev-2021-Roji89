@@ -11,4 +11,5 @@ import java.util.List;
 public interface ArtistRepository extends JpaRepository<Artist, Long> {
     Page<Artist> findByNameContainingIgnoreCase(String name, Pageable pageable);
     Artist findArtistByName(String name);
+    Boolean existsByNameIgnoreCase(String name);
 }

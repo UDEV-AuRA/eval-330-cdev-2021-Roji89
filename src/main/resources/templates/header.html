@@ -19,12 +19,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li><a href="/employes?page=0&size=10&sortProperty=matricule&sortDirection=ASC" class="nav-link">Liste des artistes
+                <li><a th:href="@{/artists(page=0,size=10,sortProperty='name',sortDirection='ASC')}" class="nav-link">Liste des artistes
                     <span class="badge badge-primary" th:text="${@artistService.countAllArtists()}"></span></a></li>
             </ul>
-            <form class="form-inline my-2 my-lg-0" role="search" action="/artists" method="GET">
+            <form class="form-inline my-2 my-lg-0" role="search" th:action="@{/artists}" method="get">
                 <div class="form-group">
-                    <input name="artist" class="form-control" placeholder="Rechercher un matricule" type="text">
+                    <input name="name" class="form-control" placeholder="Rechercher un artist" type="text">
                 </div>
                 <button type="submit" class="btn btn-outline-success ml-2 my-2 my-sm-0">Rechercher</button>
             </form>
@@ -32,10 +32,10 @@
     </nav>
 </div>
 
-<div th:fragment="inputText(label,id,value)">
+<!--<div th:fragment="inputText(label,id,value)">
     <label class="form-control-label" th:for="${id}" th:text="${label}"></label>
     <input type="text" th:value="${value}" class="form-control" th:name="${id}" th:id="${id}">
-</div>
+</div>-->
 
 </body>
 </html>

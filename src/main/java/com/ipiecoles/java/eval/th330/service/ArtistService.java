@@ -23,9 +23,21 @@ public class ArtistService {
     private AlbumRepository albumRepository;
 
     public Page<Artist> findAllArtists(Integer page, Integer size, String sortProperty, String sortDirection) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection),sortProperty);
-        Pageable pageable = PageRequest.of(page,size,sort);
-        return artistRepository.findAll(pageable);
+        if(page < 0 || size < 0){
+            throw new IllegalArgumentException("Le numéro de page et la taille des pages ne peuvent pas être négatifs !");
+        }
+        Long nbPageMax = albumRepository.count() / size;
+        if(page > nbPageMax){
+            throw new IllegalArgumentException("Avec une taille de " + size + ", le numéro de page doit être compris entre 0 et " + nbPageMax);
+        }
+        try {
+            Sort sort = Sort.by(new Sort.Order(Sort.Direction.fromString(sortDirection),sortProperty));
+            Pageable pageable = PageRequest.of(page,size,sort);
+            return artistRepository.findAll(pageable);
+        }
+        catch (Exception e) {
+            throw new IllegalArgumentException("Erreur lors de la recherche paginée ! Vérifier les paramètres !");
+        }
     }
 
     public Artist findById(Long id) {
@@ -39,9 +51,13 @@ public class ArtistService {
     public Artist findByName(String name) {
         Artist artist = this.artistRepository.findArtistByName(name);
         if(artist == null){
-            throw new EntityNotFoundException("Impossible de trouver l'employé de matricule " + name);
+            throw new EntityNotFoundException("Impossible de trouver l'artiste de nom " + name);
         }
         return artist;
+    }
+
+    public Boolean existsByName(String name) {
+        return artistRepository.existsByNameIgnoreCase(name);
     }
 
     public Long countAllArtists() {
