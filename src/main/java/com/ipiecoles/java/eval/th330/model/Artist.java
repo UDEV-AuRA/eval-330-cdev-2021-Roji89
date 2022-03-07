@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Artist implements Serializable {
 
     @Id
@@ -26,6 +27,9 @@ public class Artist implements Serializable {
     public Artist() {
     }
 
+    public String getClassName(){
+        return this.getClass().getSimpleName();
+    }
     public Artist(String name) {
         this.name = name;
     }
@@ -66,5 +70,14 @@ public class Artist implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return "Artist{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", albums=" + albums +
+                '}';
     }
 }
